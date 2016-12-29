@@ -1,0 +1,6 @@
+six>=1.10.0
+configparser>=3.5.0
+misaka
+werkzeug
+ipaddr
+https://github.com/jtanx/isso/archive/issue-10/admin-interface.zip
