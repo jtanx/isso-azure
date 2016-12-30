@@ -11,6 +11,11 @@ Installing Isso on an Azure Web App
    <?xml version="1.0"?>
    <configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
      <system.webServer>
+       <rewrite>
+         <allowedServerVariables>
+           <add name="HTTP_X_FORWARDED_FOR" xdt:Transform="InsertIfMissing"/>
+         </allowedServerVariables>
+       </rewrite>
        <fastCgi>
          <application
            fullPath="D:\home\Python27\python.exe"
@@ -89,4 +94,5 @@ Installing Isso on an Azure Web App
    
 * The modification to `applicationHost.xdt` (which should reside in `D:\home\site`) is necessary so that IIS knows how to handle Python requests using the extension version that we installed. See [here](https://github.com/Azure/azure-python-siteextensions/issues/2) for more information.
 * The (half-baked) [blog post](https://blogs.msdn.microsoft.com/pythonengineering/2016/08/04/upgrading-python-on-azure-app-service/) by MS on upgrading Python suggests to install Python modules directly and without the use of a virtualenv. I strongly disagree with this. If any of the packages break for whatever reason, it's much easier to just wipe the `env` folder and rebuild the virtualenv than it is to remove the packages from the installed Python.
+* `HTTP_X_FORWARDED_FOR` needs to be set, otherwise the `remote_addr` that Isso gets will be `0.0.0.0`.
 
